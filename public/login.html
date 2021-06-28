@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -45,10 +46,20 @@
       </div>
     </div>
   </nav>
-
-  <div class="container mt-3">
-  </div>
   
+  <div class="container mt-3">
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="name" id="name-new">
+    </div>
+    <div class="mb-3">
+      <input type="email" class="form-control" placeholder="email" id="email-new">
+    </div>
+    <div class="mb-3">
+      <input type="password" class="form-control" placeholder="pw" id="pw-new">
+    </div>
+    <button type="submit" class="btn btn-primary" id="register">가입하기</button>
+ </div>
+
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-firestore.js"></script>
@@ -71,24 +82,25 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
-
   <script>
-    const db = firebase.firestore();
-    db.collection('product').get().then((res)=>{
-      res.forEach((doc)=>{
-        console.log(doc.data())
-        var template=`<div class="product">
-          <div class="thumbnail" style="background-image:url(${doc.data().이미지})"></div>
-          <div class="flex-grow-1 p-4">
-            <h5 class="title">${doc.data().제목}</h5>
-            <p class="date">2030년 1월 8일</p>
-            <p class="price">${doc.data().가격}원</p>
-            <p class="float-end">🤍0</p>
-          </div>
-        </div>`
-        $('.container').append(template)
+    const db=firebase.firestore()
+    const storage = firebase.storage()
+
+    $('#register').click(()=>{
+
+      var email = $('#email-new').val()
+      var password = $('#pw-new').val()
+
+      firebase.auth().createUserWithEmailAndPassword(email,password)
+      .then((res)=>{
+        console.log(res)
+      })
+      .catch(()=>{
+  
       })
     })
+
+
   </script>
 
   
